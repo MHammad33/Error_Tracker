@@ -1,4 +1,5 @@
 import "@radix-ui/themes/styles.css";
+import "./theme-config.css";
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -32,7 +33,7 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 				suppressHydrationWarning
 			>
-				<Theme>
+				<Theme appearance="light" accentColor="violet">
 					<Navbar />
 					<main className="max-w-7xl mx-auto">{children}</main>
 				</Theme>
