@@ -1,4 +1,5 @@
 import { Button } from "@radix-ui/themes";
+import Link from "next/link";
 import type { FC } from "react";
 
 interface IssuesPageProps {}
@@ -6,7 +7,9 @@ interface IssuesPageProps {}
 const IssuesPage: FC<IssuesPageProps> = ({}) => {
 	return (
 		<div>
-			<Button>New Issue</Button>
+			<Button>
+				<Link href="/issues/new">New Issue</Link>
+			</Button>
 		</div>
 	);
 };
