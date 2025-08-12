@@ -31,3 +31,17 @@ export async function POST(req: Request) {
 		);
 	}
 }
+
+export async function GET() {
+	try {
+		const issues = await prisma.issue.findMany({
+			orderBy: { createdAt: "desc" },
+		});
+
+		return NextResponse.json(issues, { status: 200 });
+	} catch (error) {
+		if (error instanceof Error) {
+			return NextResponse.json({ message: error.message }, { status: 500 });
+		}
+	}
+}
