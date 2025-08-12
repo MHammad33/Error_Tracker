@@ -5,6 +5,7 @@ import { Badge, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import apiService from "@/services/apiService";
 import { useEffect, useState } from "react";
+import StatusBadge from "./StatusBadge";
 
 const IssuesTable = () => {
 	const [issues, setIssues] = useState<Issue[]>([]);
@@ -59,13 +60,13 @@ const IssuesTable = () => {
 					issues.map((issue) => (
 						<Table.Row key={issue.id}>
 							<Table.Cell>
-								<Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+								<Link href={`/`}>{issue.title}</Link>
 								<div className="block md:hidden">
-									<Badge>{issue.status}</Badge>
+									<StatusBadge status={issue.status} />
 								</div>
 							</Table.Cell>
 							<Table.Cell className="hidden md:table-cell">
-								<Badge>{issue.status}</Badge>
+								<StatusBadge status={issue.status} />
 							</Table.Cell>
 							<Table.Cell className="hidden md:table-cell">
 								{new Date(issue.createdAt).toDateString()}
