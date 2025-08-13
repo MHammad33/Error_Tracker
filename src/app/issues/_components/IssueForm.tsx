@@ -50,6 +50,7 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 				router.push("/issues");
 			}
 		} catch (error) {
+			console.error("Error creating/updating issue:", error);
 			if (issue) {
 				setError("Failed to update issue. Please try again.");
 			} else {

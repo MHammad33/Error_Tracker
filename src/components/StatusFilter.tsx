@@ -1,10 +1,7 @@
 import { ISSUE_STATUSES } from "@/constants/statuses";
 import { Select } from "@radix-ui/themes";
-import type { FC } from "react";
 
-interface StatusFilterProps {}
-
-const StatusFilter: FC<StatusFilterProps> = ({}) => {
+const StatusFilter = ({}) => {
 	return (
 		<Select.Root defaultValue={"all"}>
 			<Select.Trigger placeholder="Filter by status..." />
