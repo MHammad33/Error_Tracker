@@ -25,6 +25,7 @@ interface IssueFormProps {
 }
 
 const IssueForm: FC<IssueFormProps> = ({ issue }) => {
+	console.log("IssueForm rendered with issue:", issue);
 	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,8 +42,14 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 	const handleCreateIssue = handleSubmit(async (data) => {
 		try {
 			setIsSubmitting(true);
-			await axios.post("/api/issues", data);
-			router.push("/issues");
+
+			if (issue) {
+				await axios.patch(`/api/issues/${issue.id}`, data);
+				router.push(`/issues/${issue.id}`);
+			} else {
+				await axios.post("/api/issues", data);
+				router.push("/issues");
+			}
 		} catch (error) {
 			setError("Failed to create issue. Please try again.");
 		} finally {
@@ -76,7 +83,8 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 				<ErrorMessage>{errors.description?.message}</ErrorMessage>
 
 				<Button style={{ cursor: "pointer" }}>
-					Submit New Issue {isSubmitting && <Spinner />}
+					{issue ? "Update Issue" : "Submit New Issue"}{" "}
+					{isSubmitting && <Spinner />}
 				</Button>
 			</form>
 		</div>

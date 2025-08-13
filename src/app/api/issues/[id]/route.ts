@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default async function PATCH(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-	const { id } = params;
+	const { id } = await params;
 
 	const body = await request.json();
 	const validation = issueSchema.safeParse(body);

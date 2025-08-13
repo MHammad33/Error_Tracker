@@ -6,11 +6,11 @@ import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 
 interface IssueDetailsPageProps {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
 const IssueDetailsPage: FC<IssueDetailsPageProps> = async ({ params }) => {
-	const { id } = params;
+	const { id } = await params;
 
 	const issue = await prisma.issue.findUnique({
 		where: { id },

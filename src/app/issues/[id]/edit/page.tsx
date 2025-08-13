@@ -4,11 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
 interface EditPageProps {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
 const EditPage: FC<EditPageProps> = async ({ params }) => {
-	const { id } = params;
+	const { id } = await params;
 
 	const issue = await prisma.issue.findUnique({
 		where: { id },
