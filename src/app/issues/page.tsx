@@ -1,5 +1,4 @@
-import IssuesTable from "@/components/IssuesTable";
-import StatusFilter from "@/components/StatusFilter";
+import { IssuesTable, StatusFilter } from "@/components";
 import { Flex } from "@radix-ui/themes";
 import NewIssueButton from "./NewIssueButton";
 

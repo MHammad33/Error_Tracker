@@ -1,8 +1,8 @@
-import StatusBadge from "@/components/StatusBadge";
 import { prisma } from "@/lib/prisma";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import { StatusBadge } from "@/components";
 import type { FC } from "react";
 
 interface IssueDetailsPageProps {

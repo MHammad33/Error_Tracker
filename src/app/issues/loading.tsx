@@ -4,8 +4,7 @@
 import { Table } from "@radix-ui/themes";
 import NewIssueButton from "./NewIssueButton";
 import { columns } from "@/constants/columns";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "@/components/Skeleton";
 
 const LoadingIssues = ({}) => {
 	const issues = [1, 2, 3, 4, 5];
