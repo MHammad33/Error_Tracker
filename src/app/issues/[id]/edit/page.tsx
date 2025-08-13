@@ -1,7 +1,7 @@
 import type { FC } from "react";
-import IssueForm from "../../_components/IssueForm";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import EditIssueClient from "./EditIssueClient";
 
 interface EditPageProps {
 	params: Promise<{ id: string }>;
@@ -13,14 +13,9 @@ const EditPage: FC<EditPageProps> = async ({ params }) => {
 	const issue = await prisma.issue.findUnique({
 		where: { id },
 	});
+	if (!issue) notFound();
 
-	if (!issue) {
-		notFound();
-	}
-
-	console.log("EditPage rendered with issue:", issue);
-
-	return <IssueForm issue={issue} />;
+	return <EditIssueClient issue={issue} />;
 };
 
 export default EditPage;
