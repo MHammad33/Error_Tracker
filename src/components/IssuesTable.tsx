@@ -1,32 +1,15 @@
 "use client";
 
 import { Issue } from "../generated/prisma";
-import { Badge, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 import Link from "next/link";
 import apiService from "@/services/apiService";
 import { useEffect, useState } from "react";
 import StatusBadge from "./StatusBadge";
+import { columns } from "@/constants/columns";
 
 const IssuesTable = () => {
 	const [issues, setIssues] = useState<Issue[]>([]);
-
-	const columns: {
-		label: string;
-		value: keyof Issue;
-		className?: string;
-	}[] = [
-		{ label: "Issue", value: "title" },
-		{
-			label: "Status",
-			value: "status",
-			className: "hidden md:table-cell",
-		},
-		{
-			label: "Created",
-			value: "createdAt",
-			className: "hidden md:table-cell",
-		},
-	];
 
 	useEffect(() => {
 		apiService.fetchIssues().then((issues) => {

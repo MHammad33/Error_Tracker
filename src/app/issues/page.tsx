@@ -2,17 +2,18 @@
 
 import IssuesTable from "@/components/IssuesTable";
 import StatusFilter from "@/components/StatusFilter";
-import { Button, Flex } from "@radix-ui/themes";
-import Link from "next/link";
+import { Flex } from "@radix-ui/themes";
+import NewIssueButton from "./NewIssueButton";
+// import delay from "delay";
 
 const IssuesPage = ({}) => {
+	// await delay(3000);
+
 	return (
 		<>
 			<Flex justify="between" align="center" className="mb-4">
 				<StatusFilter />
-				<Button>
-					<Link href="/issues/new">New Issue</Link>
-				</Button>
+				<NewIssueButton />
 			</Flex>
 
 			<IssuesTable />
