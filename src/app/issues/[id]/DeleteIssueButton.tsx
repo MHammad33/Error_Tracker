@@ -1,4 +1,8 @@
+"use client";
+
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 
@@ -7,6 +11,18 @@ interface DeleteIssueButtonProps {
 }
 
 const DeleteIssueButton: FC<DeleteIssueButtonProps> = ({ issueId }) => {
+	const router = useRouter();
+
+	const handleDelete = async () => {
+		try {
+			await axios.delete(`/api/issues/${issueId}`);
+			router.push("/issues");
+			router.refresh();
+		} catch (error) {
+			console.error("Failed to delete issue:", error);
+		}
+	};
+
 	return (
 		<AlertDialog.Root>
 			<AlertDialog.Trigger>
@@ -28,7 +44,7 @@ const DeleteIssueButton: FC<DeleteIssueButtonProps> = ({ issueId }) => {
 						</Button>
 					</AlertDialog.Cancel>
 					<AlertDialog.Action>
-						<Button variant="solid" color="red">
+						<Button variant="solid" color="red" onClick={handleDelete}>
 							Delete Issue
 						</Button>
 					</AlertDialog.Action>
