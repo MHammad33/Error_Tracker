@@ -6,12 +6,7 @@ interface StatusFilterProps {}
 
 const StatusFilter: FC<StatusFilterProps> = ({}) => {
 	return (
-		<Select.Root
-			defaultValue={"all"}
-			onValueChange={(value) => {
-				console.log("Selected status:", value);
-			}}
-		>
+		<Select.Root defaultValue={"all"}>
 			<Select.Trigger placeholder="Filter by status..." />
 			<Select.Content>
 				{ISSUE_STATUSES.map((status) => (
