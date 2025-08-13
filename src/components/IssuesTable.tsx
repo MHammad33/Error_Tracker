@@ -2,11 +2,11 @@
 
 import { Issue } from "../generated/prisma";
 import { Table } from "@radix-ui/themes";
-import Link from "next/link";
 import apiService from "@/services/apiService";
 import { useEffect, useState } from "react";
 import StatusBadge from "./StatusBadge";
 import { columns } from "@/constants/columns";
+import Link from "./Link";
 
 const IssuesTable = () => {
 	const [issues, setIssues] = useState<Issue[]>([]);
