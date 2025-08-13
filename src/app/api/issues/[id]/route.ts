@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { issueSchema } from "@/lib/validationSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function PATCH(
+export async function PATCH(
 	request: NextRequest,
 	{ params }: { params: Promise<{ id: string }> }
 ) {

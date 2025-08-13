@@ -18,6 +18,8 @@ const EditPage: FC<EditPageProps> = async ({ params }) => {
 		notFound();
 	}
 
+	console.log("EditPage rendered with issue:", issue);
+
 	return <IssueForm issue={issue} />;
 };
 

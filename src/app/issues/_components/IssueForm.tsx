@@ -25,7 +25,6 @@ interface IssueFormProps {
 }
 
 const IssueForm: FC<IssueFormProps> = ({ issue }) => {
-	console.log("IssueForm rendered with issue:", issue);
 	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -51,7 +50,11 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 				router.push("/issues");
 			}
 		} catch (error) {
-			setError("Failed to create issue. Please try again.");
+			if (issue) {
+				setError("Failed to update issue. Please try again.");
+			} else {
+				setError("Failed to create issue. Please try again.");
+			}
 		} finally {
 			setIsSubmitting(false);
 		}
