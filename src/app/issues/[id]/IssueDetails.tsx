@@ -16,7 +16,7 @@ const IssueDetails: FC<IssueDetailsProps> = ({ issue }) => {
 				<StatusBadge status={issue.status} />
 				<Text>{new Date(issue.createdAt).toDateString()}</Text>
 			</Flex>
-			<Card className="prose mt-5">
+			<Card className="prose mt-5 max-w-full">
 				<ReactMarkdown>{issue.description}</ReactMarkdown>
 			</Card>
 		</>
