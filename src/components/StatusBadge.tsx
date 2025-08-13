@@ -1,5 +1,5 @@
 import { Badge } from "@radix-ui/themes";
-import { Status } from "../generated/prisma";
+import type { Status } from "@prisma/client";
 import type { FC } from "react";
 
 interface StatusBadgeProps {

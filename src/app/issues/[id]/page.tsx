@@ -1,4 +1,6 @@
+import StatusBadge from "@/components/StatusBadge";
 import { prisma } from "@/lib/prisma";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
@@ -19,10 +21,14 @@ const IssueDetailsPage: FC<IssueDetailsPageProps> = async ({ params }) => {
 
 	return (
 		<div>
-			<p>{issue.title}</p>
-			<p>{issue.description}</p>
-			<p>{issue.status}</p>
-			<p>{new Date(issue.createdAt).toDateString()}</p>
+			<Heading>{issue.title}</Heading>
+			<Flex className="space-x-2" my="2" align="center">
+				<StatusBadge status={issue.status} />
+				<Text>{new Date(issue.createdAt).toDateString()}</Text>
+			</Flex>
+			<Card>
+				<p>{issue.description}</p>
+			</Card>
 		</div>
 	);
 };
