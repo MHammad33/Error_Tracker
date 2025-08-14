@@ -1,12 +1,11 @@
 "use client";
 
-import { Issue } from "../generated/prisma";
 import { Table } from "@radix-ui/themes";
 import apiService from "@/services/apiService";
 import { useEffect, useState } from "react";
-import StatusBadge from "./StatusBadge";
 import { columns } from "@/constants/columns";
-import Link from "./Link";
+import { Issue } from "@prisma/client";
+import { Link, StatusBadge } from "@/components";
 
 const IssuesTable = () => {
 	const [issues, setIssues] = useState<Issue[]>([]);

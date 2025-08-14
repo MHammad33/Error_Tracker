@@ -1,6 +1,7 @@
-import { IssuesTable, StatusFilter } from "@/components";
 import { Flex } from "@radix-ui/themes";
 import NewIssueButton from "./NewIssueButton";
+import StatusFilter from "./StatusFilter";
+import IssuesTable from "./IssuesTable";
 
 const IssuesPage = ({}) => {
 	return (
