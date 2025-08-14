@@ -6,14 +6,14 @@ import { Status } from "@prisma/client";
 import { FC } from "react";
 
 interface IssuesPageProps {
-	searchParams: { status?: Status | null };
+	searchParams: Promise<{ status?: Status | null }>;
 }
 
-const IssuesPage: FC<IssuesPageProps> = ({ searchParams }) => {
+const IssuesPage: FC<IssuesPageProps> = async ({ searchParams }) => {
+	const status = (await searchParams).status as Status;
 	const statuses = Object.values(Status);
-	const statusFilter = statuses.includes(searchParams.status as Status)
-		? (searchParams.status as Status)
-		: undefined;
+	const statusFilter = statuses.includes(status) ? status : undefined;
+	console.log("Current status filter:", statusFilter);
 
 	return (
 		<>

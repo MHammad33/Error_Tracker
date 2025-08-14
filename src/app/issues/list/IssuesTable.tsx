@@ -10,13 +10,10 @@ interface IssueTableProps {
 }
 
 const IssuesTable: FC<IssueTableProps> = async ({ status }) => {
+	console.log("Fetching issues with status:", status);
 	const issues = await prisma.issue.findMany({
-		where: {
-			status: status,
-		},
+		where: { status },
 	});
-
-	console.log("Issues fetched:", issues);
 
 	return (
 		<Table.Root variant="surface">
