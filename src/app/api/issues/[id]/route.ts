@@ -28,7 +28,7 @@ export async function PATCH(
 		}
 	}
 
-	if (!validation.success) {
+	if (!validation.success && assignedUserId !== null) {
 		return NextResponse.json(validation.error, { status: 400 });
 	}
 
@@ -45,7 +45,7 @@ export async function PATCH(
 		data: {
 			title,
 			description,
-			assignedUserId,
+			assignedUserId: assignedUserId || null,
 		},
 	});
 
