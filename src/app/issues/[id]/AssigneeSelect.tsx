@@ -17,34 +17,25 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
 	issueId,
 	assignedUserId,
 }) => {
-	const {
-		data: users,
-		error,
-		isLoading,
-	} = useQuery<User[]>({
-		queryKey: ["users"],
-		queryFn: async () => axios.get("/api/users").then((res) => res.data),
-		staleTime: 60 * 1000,
-		retry: 3,
-	});
-
+	const { data: users, error, isLoading } = useUsers();
 	if (error) return null;
-
 	if (isLoading) return <Skeleton height="2rem" />;
+
+	const assignIssue = async (userId: string) => {
+		try {
+			await axios.patch(`/sapi/issues/${issueId}`, {
+				assignedUserId: userId !== "unassigned" ? userId : null,
+			});
+		} catch (error) {
+			toast.error("The assignee could not be updated");
+		}
+	};
 
 	return (
 		<>
 			<Select.Root
 				defaultValue={assignedUserId || "unassigned"}
-				onValueChange={async (userId) => {
-					try {
-						await axios.patch(`/sapi/issues/${issueId}`, {
-							assignedUserId: userId !== "unassigned" ? userId : null,
-						});
-					} catch (error) {
-						toast.error("The assignee could not be updated");
-					}
-				}}
+				onValueChange={assignIssue}
 			>
 				<Select.Trigger placeholder="Assign..." />
 				<Select.Content>
@@ -62,6 +53,15 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
 			<Toaster />
 		</>
 	);
+};
+
+const useUsers = () => {
+	return useQuery<User[]>({
+		queryKey: ["users"],
+		queryFn: async () => axios.get("/api/users").then((res) => res.data),
+		staleTime: 1000 * 60 * 10,
+		retry: 3,
+	});
 };
 
 export default AssigneeSelect;
