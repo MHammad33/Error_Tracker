@@ -1,26 +1,22 @@
-"use client";
-
 import { Table } from "@radix-ui/themes";
-import apiService from "@/services/apiService";
-import { useEffect, useState } from "react";
+import { FC } from "react";
 import { columns } from "@/constants/columns";
-import { Issue } from "@prisma/client";
 import { Link, StatusBadge } from "@/components";
+import { prisma } from "@/lib/prisma";
+import { Status } from "@prisma/client";
 
-const IssuesTable = () => {
-	const [issues, setIssues] = useState<Issue[]>([]);
+interface IssueTableProps {
+	status: Status | undefined;
+}
 
-	useEffect(() => {
-		apiService.fetchIssues().then((issues) => {
-			if (!issues) {
-				return <div>Error loading issues</div>;
-			}
-			if (issues.length === 0) {
-				return <div>No issues found</div>;
-			}
-			setIssues(issues);
-		});
-	}, []);
+const IssuesTable: FC<IssueTableProps> = async ({ status }) => {
+	const issues = await prisma.issue.findMany({
+		where: {
+			status: status,
+		},
+	});
+
+	console.log("Issues fetched:", issues);
 
 	return (
 		<Table.Root variant="surface">
