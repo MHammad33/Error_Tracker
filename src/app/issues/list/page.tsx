@@ -2,11 +2,15 @@ import { Flex } from "@radix-ui/themes";
 import NewIssueButton from "./NewIssueButton";
 import StatusFilter from "./StatusFilter";
 import IssuesTable from "./IssuesTable";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { FC } from "react";
 
 interface IssuesPageProps {
-	searchParams: Promise<{ status?: Status | null }>;
+	searchParams: Promise<{
+		status?: Status | null;
+		orderBy?: keyof Issue;
+		page?: string;
+	}>;
 }
 
 const IssuesPage: FC<IssuesPageProps> = async ({ searchParams }) => {
