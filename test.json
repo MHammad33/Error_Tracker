@@ -1,0 +1,142 @@
+[
+	{
+		"title": "Login button not responding",
+		"description": "Users report that clicking the login button sometimes does not trigger any action. This seems intermittent and might be related to browser caching or network latency.",
+		"status": "OPEN",
+		"createdAt": "2025-08-01T09:15:00Z",
+		"updatedAt": "2025-08-01T09:15:00Z"
+	},
+	{
+		"title": "Profile picture upload failing",
+		"description": "When users attempt to upload a profile picture, the upload fails with a server error. The API returns a 500 error, suggesting an issue with file handling or storage permissions.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-02T10:20:00Z",
+		"updatedAt": "2025-08-03T11:00:00Z"
+	},
+	{
+		"title": "Email notifications not sent",
+		"description": "Users are not receiving email notifications for password resets or new messages. SMTP server logs show no outgoing email attempts, indicating a potential configuration issue.",
+		"status": "OPEN",
+		"createdAt": "2025-08-02T12:30:00Z",
+		"updatedAt": "2025-08-02T12:30:00Z"
+	},
+	{
+		"title": "Dashboard charts loading slowly",
+		"description": "The dashboard page takes too long to load charts, especially for users with many entries. This may be due to unoptimized database queries or missing indexes on key fields.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-03T08:00:00Z",
+		"updatedAt": "2025-08-04T09:10:00Z"
+	},
+	{
+		"title": "Search feature not returning results",
+		"description": "Searching for items often returns empty results, even when data exists. There may be a mismatch between the search query format and database field types.",
+		"status": "OPEN",
+		"createdAt": "2025-08-03T14:45:00Z",
+		"updatedAt": "2025-08-03T14:45:00Z"
+	},
+	{
+		"title": "Mobile layout broken on iPhone 12",
+		"description": "On iPhone 12 devices, the mobile layout breaks, overlapping elements and causing buttons to be unclickable. This may be due to CSS media queries not covering all screen sizes.",
+		"status": "CLOSED",
+		"createdAt": "2025-08-04T07:30:00Z",
+		"updatedAt": "2025-08-05T08:20:00Z"
+	},
+	{
+		"title": "Password reset token expired too soon",
+		"description": "Users report that password reset tokens expire almost immediately, preventing them from updating their passwords. Token expiration logic may need adjustment.",
+		"status": "OPEN",
+		"createdAt": "2025-08-04T13:00:00Z",
+		"updatedAt": "2025-08-04T13:00:00Z"
+	},
+	{
+		"title": "Notification bell not updating",
+		"description": "The notification bell icon does not show the correct unread count. WebSocket connections might not be firing updates properly or state management has a bug.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-05T09:50:00Z",
+		"updatedAt": "2025-08-06T10:15:00Z"
+	},
+	{
+		"title": "File download link broken",
+		"description": "Some users cannot download files from the reports section. The server returns a 404 error indicating that the file path might be incorrect or missing from storage.",
+		"status": "CLOSED",
+		"createdAt": "2025-08-05T16:20:00Z",
+		"updatedAt": "2025-08-06T17:05:00Z"
+	},
+	{
+		"title": "Session timeout too short",
+		"description": "Users are logged out after only a few minutes of inactivity. This affects usability and may be due to server-side session timeout settings being too aggressive.",
+		"status": "OPEN",
+		"createdAt": "2025-08-06T08:10:00Z",
+		"updatedAt": "2025-08-06T08:10:00Z"
+	},
+	{
+		"title": "Payment gateway integration failing",
+		"description": "Transactions are failing when using certain credit cards. Logs indicate API authentication errors from the payment provider, which may require key rotation or endpoint updates.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-06T14:30:00Z",
+		"updatedAt": "2025-08-07T09:45:00Z"
+	},
+	{
+		"title": "Wrong language loaded on profile page",
+		"description": "Some users see the wrong language text when opening their profile. Localization files may not be loaded correctly or caching could be interfering with dynamic language selection.",
+		"status": "OPEN",
+		"createdAt": "2025-08-07T10:00:00Z",
+		"updatedAt": "2025-08-07T10:00:00Z"
+	},
+	{
+		"title": "404 page missing styling",
+		"description": "The custom 404 page does not display styles properly and appears plain. CSS files might not be linked correctly or paths could be wrong in the build output.",
+		"status": "CLOSED",
+		"createdAt": "2025-08-07T15:20:00Z",
+		"updatedAt": "2025-08-08T08:50:00Z"
+	},
+	{
+		"title": "Chat messages delayed",
+		"description": "Real-time chat messages are delayed by several seconds, which affects user experience. The WebSocket server may be overloaded or message queuing logic could be slow.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-08T09:40:00Z",
+		"updatedAt": "2025-08-08T10:20:00Z"
+	},
+	{
+		"title": "Settings page not saving changes",
+		"description": "Users report that changes made on the settings page are not being saved. API endpoints return 200 but the database shows no updates, indicating a possible transaction issue.",
+		"status": "OPEN",
+		"createdAt": "2025-08-08T12:15:00Z",
+		"updatedAt": "2025-08-08T12:15:00Z"
+	},
+	{
+		"title": "Image carousel not rotating",
+		"description": "The homepage image carousel does not rotate automatically. JavaScript errors in the console suggest a problem initializing the carousel plugin or conflicting scripts.",
+		"status": "CLOSED",
+		"createdAt": "2025-08-09T07:50:00Z",
+		"updatedAt": "2025-08-09T09:10:00Z"
+	},
+	{
+		"title": "User roles not updating",
+		"description": "Admin users report that changing a user's role does not take effect. Backend API may not be committing updates correctly or cache may be returning stale data.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-09T14:00:00Z",
+		"updatedAt": "2025-08-10T08:45:00Z"
+	},
+	{
+		"title": "Search autocomplete shows irrelevant results",
+		"description": "Autocomplete suggestions include unrelated items. This may be due to poor ranking logic or missing filters in the search index.",
+		"status": "OPEN",
+		"createdAt": "2025-08-10T09:20:00Z",
+		"updatedAt": "2025-08-10T09:20:00Z"
+	},
+	{
+		"title": "Forgot password email delayed",
+		"description": "Some users receive password reset emails after hours instead of immediately. SMTP server performance or queuing mechanisms might be causing delays.",
+		"status": "IN_PROGRESS",
+		"createdAt": "2025-08-10T13:40:00Z",
+		"updatedAt": "2025-08-11T07:30:00Z"
+	},
+	{
+		"title": "Two-factor authentication code invalid",
+		"description": "Even valid codes are sometimes rejected when users try to log in. Clock drift or incorrect code generation logic might be causing this.",
+		"status": "OPEN",
+		"createdAt": "2025-08-11T08:25:00Z",
+		"updatedAt": "2025-08-11T08:25:00Z"
+	}
+]
