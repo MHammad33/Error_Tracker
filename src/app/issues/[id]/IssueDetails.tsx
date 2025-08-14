@@ -8,7 +8,7 @@ interface IssueDetailsProps {
 	issue: Issue;
 }
 
-const IssueDetails: FC<IssueDetailsProps> = ({ issue }) => {
+const IssueDetails: FC<IssueDetailsProps> = async ({ issue }) => {
 	return (
 		<>
 			<Heading>{issue.title}</Heading>
