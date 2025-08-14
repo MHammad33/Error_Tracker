@@ -14,8 +14,23 @@ interface IssueTableProps {
 
 const IssuesTable: FC<IssueTableProps> = async ({ status, searchParams }) => {
 	const searchParamsObj = await searchParams;
+	const validOrderFields = columns.map((col) => col.value);
+	const orderByField = searchParamsObj.orderBy;
+
+	const isValidOrderBy =
+		orderByField !== undefined &&
+		(validOrderFields as string[]).includes(orderByField as string);
+
+	const orderBy = isValidOrderBy
+		? ({ [orderByField as string]: "asc" } as Record<
+				keyof Issue,
+				"asc" | "desc"
+		  >)
+		: undefined;
+
 	const issues = await prisma.issue.findMany({
 		where: { status },
+		orderBy,
 	});
 
 	return (
