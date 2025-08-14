@@ -1,16 +1,19 @@
 import { Table } from "@radix-ui/themes";
 import { FC } from "react";
 import { columns } from "@/constants/columns";
-import { Link, StatusBadge } from "@/components";
+import { StatusBadge } from "@/components";
 import { prisma } from "@/lib/prisma";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
+import Link from "next/link";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface IssueTableProps {
 	status: Status | undefined;
+	searchParams: Promise<{ status?: Status | null; orderBy?: keyof Issue }>;
 }
 
-const IssuesTable: FC<IssueTableProps> = async ({ status }) => {
-	console.log("Fetching issues with status:", status);
+const IssuesTable: FC<IssueTableProps> = async ({ status, searchParams }) => {
+	const searchParamsObj = await searchParams;
 	const issues = await prisma.issue.findMany({
 		where: { status },
 	});
@@ -24,7 +27,14 @@ const IssuesTable: FC<IssueTableProps> = async ({ status }) => {
 							key={column.value}
 							className={column.className}
 						>
-							{column.label}
+							<Link
+								href={{ query: { ...searchParamsObj, orderBy: column.value } }}
+							>
+								{column.label}
+							</Link>
+							{column.value === searchParamsObj.orderBy && (
+								<ArrowUpIcon className="inline" />
+							)}
 						</Table.ColumnHeaderCell>
 					))}
 				</Table.Row>

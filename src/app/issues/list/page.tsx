@@ -22,7 +22,7 @@ const IssuesPage: FC<IssuesPageProps> = async ({ searchParams }) => {
 				<NewIssueButton />
 			</Flex>
 
-			<IssuesTable status={statusFilter} />
+			<IssuesTable status={statusFilter} searchParams={searchParams} />
 		</>
 	);
 };
