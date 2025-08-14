@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
+import Skeleton from "./Skeleton";
 
 const Navbar = ({}) => {
 	return (
@@ -70,7 +71,7 @@ const NavLinks = () => {
 const AuthStatus = () => {
 	const { data: session, status } = useSession();
 
-	if (status === "loading") return null;
+	if (status === "loading") return <Skeleton width="3rem" />;
 
 	if (status === "unauthenticated") {
 		console.log("User is not authenticated");
