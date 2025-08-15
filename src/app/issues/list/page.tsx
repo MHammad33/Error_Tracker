@@ -7,6 +7,7 @@ import { FC } from "react";
 import IssuesTable, { IssueSearchParams } from "./IssuesTable";
 import NewIssueButton from "./NewIssueButton";
 import StatusFilter from "./StatusFilter";
+import { Metadata } from "next";
 
 interface IssuesPageProps {
 	searchParams: Promise<IssueSearchParams>;
@@ -65,6 +66,11 @@ const IssuesPage: FC<IssuesPageProps> = async ({ searchParams }) => {
 	);
 };
 
+export default IssuesPage;
+
 export const dynamic = "force-dynamic";
 
-export default IssuesPage;
+export const metadata: Metadata = {
+	title: "Error Tracker - Issues List",
+	description: "View all issues and their statuses",
+};
