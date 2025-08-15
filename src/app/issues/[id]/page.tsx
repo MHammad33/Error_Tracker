@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { cache, type FC } from "react";
 import { prisma } from "@/lib/prisma";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
@@ -7,19 +7,21 @@ import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import AssigneeSelect from "./AssigneeSelect";
-import { Metadata } from "next";
 
 interface IssueDetailsPageProps {
 	params: Promise<{ id: string }>;
 }
 
+const fetchIssue = cache((issueId: string) =>
+	prisma.issue.findUnique({
+		where: { id: issueId },
+	})
+);
+
 const IssueDetailsPage: FC<IssueDetailsPageProps> = async ({ params }) => {
 	const session = await getServerSession();
 	const { id } = await params;
-
-	const issue = await prisma.issue.findUnique({
-		where: { id },
-	});
+	const issue = await fetchIssue(id);
 
 	if (!issue) {
 		notFound();
@@ -48,9 +50,7 @@ const IssueDetailsPage: FC<IssueDetailsPageProps> = async ({ params }) => {
 
 export async function generateMetadata({ params }: IssueDetailsPageProps) {
 	const { id } = await params;
-	const issue = await prisma.issue.findUnique({
-		where: { id },
-	});
+	const issue = await fetchIssue(id);
 
 	return {
 		title: `Issue ${issue?.title || "Details"}`,
