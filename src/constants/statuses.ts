@@ -1,4 +1,4 @@
-import { Status } from "../generated/prisma";
+import { Status } from "@prisma/client";
 
 export const ISSUE_STATUSES: { label: string; value?: Status }[] = [
 	{ label: "All" },

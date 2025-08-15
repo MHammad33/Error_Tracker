@@ -18,7 +18,7 @@ const LoadingIssues = ({}) => {
 					<Table.Row>
 						{columns.map((column) => (
 							<Table.ColumnHeaderCell
-								key={column.value}
+								key={String(column.value ?? column.label)}
 								className={column.className}
 							>
 								{column.label}

@@ -29,6 +29,7 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
 			toast.success("Assignee updated successfully");
 		} catch (error) {
 			toast.error("The assignee could not be updated");
+			console.error("Error updating assignee:", error);
 		}
 	};
 

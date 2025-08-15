@@ -24,12 +24,15 @@ const IssuesTable: FC<IssueTableProps> = ({ searchParamsObj, issues }) => {
 				<Table.Row>
 					{columns.map((column) => (
 						<Table.ColumnHeaderCell
-							key={column.value}
+							key={String(column.value ?? column.label)}
 							className={column.className}
 						>
 							<Link
 								href={{
-									query: { ...searchParamsObj, orderBy: column.value },
+									query: {
+										...searchParamsObj,
+										orderBy: String(column.value) ?? undefined,
+									},
 								}}
 							>
 								{column.label}

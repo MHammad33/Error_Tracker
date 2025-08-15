@@ -1,4 +1,4 @@
-import { Issue } from "../generated/prisma";
+import { Issue } from "@prisma/client";
 
 export const columns: {
 	label: string;
