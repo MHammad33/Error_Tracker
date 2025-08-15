@@ -23,9 +23,10 @@ const AssigneeSelect: FC<AssigneeSelectProps> = ({
 
 	const assignIssue = async (userId: string) => {
 		try {
-			await axios.patch(`/sapi/issues/${issueId}`, {
+			await axios.patch(`/api/issues/${issueId}`, {
 				assignedUserId: userId !== "unassigned" ? userId : null,
 			});
+			toast.success("Assignee updated successfully");
 		} catch (error) {
 			toast.error("The assignee could not be updated");
 		}
