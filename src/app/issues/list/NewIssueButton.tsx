@@ -1,13 +1,15 @@
-import { Button } from "@radix-ui/themes";
+import { PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-const NewIssueButton = ({}) => {
+const NewIssueButton = () => {
 	return (
-		<div className="mb-4">
-			<Button asChild>
-				<Link href="/issues/new">New Issue</Link>
-			</Button>
-		</div>
+		<Link
+			href="/issues/new"
+			className="inline-flex items-center gap-2 px-4 py-2.5 bg-violet-600 text-white text-sm font-medium rounded-lg hover:bg-violet-700 transition-colors shadow-sm"
+		>
+			<PlusIcon className="w-4 h-4" />
+			New Issue
+		</Link>
 	);
 };
 

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import "easymde/dist/easymde.min.css";
 
 :root {
 	--background: #ffffff;
@@ -29,5 +30,64 @@ body {
 @layer utilities {
 	.nav-link {
 		@apply text-zinc-500 hover:text-zinc-800 transition-colors duration-200;
+	}
+	
+	.line-clamp-2 {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+	
+	/* Custom scrollbar */
+	.custom-scrollbar::-webkit-scrollbar {
+		width: 6px;
+	}
+	
+	.custom-scrollbar::-webkit-scrollbar-track {
+		background: #f1f5f9;
+		border-radius: 3px;
+	}
+	
+	.custom-scrollbar::-webkit-scrollbar-thumb {
+		background: #cbd5e1;
+		border-radius: 3px;
+	}
+	
+	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+		background: #94a3b8;
+	}
+	
+	/* SimpleMDE editor styling in drawer */
+	.CodeMirror {
+		border: 1px solid #e5e7eb !important;
+		border-radius: 8px !important;
+		font-family: inherit !important;
+	}
+	
+	.CodeMirror-focused {
+		border-color: #8b5cf6 !important;
+		box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1) !important;
+	}
+	
+	.editor-toolbar {
+		border: 1px solid #e5e7eb !important;
+		border-bottom: none !important;
+		border-radius: 8px 8px 0 0 !important;
+		background: #f9fafb !important;
+	}
+	
+	.editor-toolbar button {
+		color: #6b7280 !important;
+		border: none !important;
+	}
+	
+	.editor-toolbar button:hover {
+		background: #e5e7eb !important;
+		color: #374151 !important;
+	}
+	
+	.editor-toolbar.disabled-for-preview button:not(.no-disable) {
+		opacity: 0.3 !important;
 	}
 }

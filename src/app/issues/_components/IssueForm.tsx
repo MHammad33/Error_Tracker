@@ -41,6 +41,7 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 			if (issue) {
 				await axios.patch(`/api/issues/${issue.id}`, data);
 				router.push(`/issues/${issue.id}`);
+				router.refresh(); // Refresh to show updated data
 			} else {
 				await axios.post("/api/issues", data);
 				router.push("/issues/list");
@@ -58,35 +59,82 @@ const IssueForm: FC<IssueFormProps> = ({ issue }) => {
 	});
 
 	return (
-		<div className="max-w-xl">
+		<div className="space-y-6">
 			{error && (
 				<Callout.Root color="red" className="mb-4">
 					<Callout.Text>{error}</Callout.Text>
 				</Callout.Root>
 			)}
-			<form className="space-y-2" onSubmit={handleCreateIssue}>
-				<TextField.Root
-					defaultValue={issue?.title || ""}
-					placeholder="Title"
-					{...register("title")}
-				></TextField.Root>
-				<ErrorMessage>{errors.title?.message}</ErrorMessage>
 
-				<Controller
-					name="description"
-					defaultValue={issue?.description || ""}
-					control={control}
-					render={({ field }) => (
-						<SimpleMDE placeholder="Description" {...field} />
-					)}
-				/>
-				<ErrorMessage>{errors.description?.message}</ErrorMessage>
+			<div className="bg-white rounded-xl border border-gray-200 p-6">
+				<form className="space-y-6" onSubmit={handleCreateIssue}>
+					<div>
+						<label className="block text-sm font-medium text-gray-700 mb-2">
+							Title *
+						</label>
+						<TextField.Root
+							defaultValue={issue?.title || ""}
+							placeholder="Enter issue title..."
+							className="w-full"
+							{...register("title")}
+						/>
+						<ErrorMessage>{errors.title?.message}</ErrorMessage>
+					</div>
 
-				<Button style={{ cursor: "pointer" }}>
-					{issue ? "Update Issue" : "Submit New Issue"}{" "}
-					{isSubmitting && <Spinner />}
-				</Button>
-			</form>
+					<div>
+						<label className="block text-sm font-medium text-gray-700 mb-2">
+							Description
+						</label>
+						<Controller
+							name="description"
+							defaultValue={issue?.description || ""}
+							control={control}
+							render={({ field }) => (
+								<SimpleMDE
+									placeholder="Describe the issue in detail..."
+									{...field}
+									options={{
+										autofocus: false,
+										spellChecker: false,
+										toolbar: [
+											"bold", "italic", "heading", "|",
+											"quote", "unordered-list", "ordered-list", "|",
+											"link", "preview", "side-by-side", "fullscreen"
+										],
+									}}
+								/>
+							)}
+						/>
+						<ErrorMessage>{errors.description?.message}</ErrorMessage>
+					</div>
+
+					<div className="flex items-center gap-3 pt-4 border-t border-gray-200">
+						<Button
+							type="submit"
+							disabled={isSubmitting}
+							className="cursor-pointer"
+						>
+							{isSubmitting ? (
+								<>
+									<Spinner />
+									{issue ? "Updating..." : "Creating..."}
+								</>
+							) : (
+								issue ? "Update Issue" : "Create Issue"
+							)}
+						</Button>
+
+						<Button
+							type="button"
+							variant="ghost"
+							onClick={() => router.back()}
+							disabled={isSubmitting}
+						>
+							Cancel
+						</Button>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 };

@@ -4,6 +4,26 @@ import { patchIssueSchema } from "@/lib/validationSchema";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
+) {
+	const { id } = await params;
+
+	const issue = await prisma.issue.findUnique({
+		where: { id },
+		include: {
+			assignedUser: true,
+		},
+	});
+
+	if (!issue) {
+		return NextResponse.json({ message: "Issue not found" }, { status: 404 });
+	}
+
+	return NextResponse.json(issue, { status: 200 });
+}
+
 export async function PATCH(
 	request: NextRequest,
 	{ params }: { params: Promise<{ id: string }> }
