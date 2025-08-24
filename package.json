@@ -1,7 +1,29 @@
 {
 	"name": "issue-tracker",
 	"version": "0.1.0",
+	"description": "A modern, full-stack issue tracking application built with Next.js, featuring real-time updates, advanced filtering, and comprehensive user management.",
 	"private": true,
+	"author": "Your Name",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/your-username/issue-tracker.git"
+	},
+	"bugs": {
+		"url": "https://github.com/your-username/issue-tracker/issues"
+	},
+	"homepage": "https://github.com/your-username/issue-tracker#readme",
+	"keywords": [
+		"issue-tracker",
+		"nextjs",
+		"react",
+		"typescript",
+		"prisma",
+		"mongodb",
+		"kanban",
+		"dashboard",
+		"project-management"
+	],
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"seed": "node prisma/seed.js",
