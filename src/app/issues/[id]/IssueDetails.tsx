@@ -1,5 +1,5 @@
 import { StatusBadge } from "@/components";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Card, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 import type { FC } from "react";
 import { Issue, User } from "@prisma/client";

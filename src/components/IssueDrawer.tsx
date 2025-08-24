@@ -1,11 +1,11 @@
 "use client";
 
-import { Issue, Status, User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { Cross2Icon, Pencil1Icon, CheckIcon, ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Avatar, Button, Text, Heading, TextField, Callout } from "@radix-ui/themes";
 import { StatusBadge } from "@/components";
 import { formatDistanceToNow } from "date-fns";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/lib/validationSchema";
@@ -82,14 +82,14 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
     setError(null);
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = useCallback(() => {
     setIsEditing(false);
     setError(null);
     reset({
       title: issue?.title || "",
       description: issue?.description || "",
     });
-  };
+  }, [issue, reset]);
 
   const handleSave = handleSubmit(async (data) => {
     if (!issue) return;

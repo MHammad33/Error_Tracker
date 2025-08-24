@@ -5,7 +5,7 @@ import ViewToggle from "@/components/ViewToggle";
 import KanbanBoard from "@/components/KanbanBoard";
 import { columns } from "@/constants/columns";
 import { prisma } from "@/lib/prisma";
-import { Issue, Status } from "@prisma/client";
+import { Issue, Prisma, Status } from "@prisma/client";
 import { Heading, Text } from "@radix-ui/themes";
 import { FC } from "react";
 import IssuesTable, { IssueSearchParams } from "./IssuesTable";
@@ -37,13 +37,13 @@ const IssuesPage: FC<IssuesPageProps> = async ({ searchParams }) => {
 			keyof Issue,
 			"asc" | "desc"
 		>)
-		: { createdAt: "desc" as "desc" };
+		: { createdAt: "desc" as const };
 
 	const page = Number(searchParamsObj.page) || 1;
 	const pageSize = 12;
 
 	// Build where clause with search
-	const where: any = {};
+	const where: Prisma.IssueWhereInput = {};
 	if (status) {
 		where.status = status;
 	}

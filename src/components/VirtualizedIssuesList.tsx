@@ -1,6 +1,6 @@
 "use client";
 
-import { Issue, Status, User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { Avatar, Text } from "@radix-ui/themes";
 import { StatusBadge } from "@/components";
 import { formatDistanceToNow } from "date-fns";

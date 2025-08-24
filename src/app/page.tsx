@@ -33,7 +33,7 @@ export default async function Home() {
 					Dashboard
 				</Heading>
 				<Text size="3" className="text-gray-600">
-					Overview of your project's issue tracking and progress.
+					Overview of your project&apos;s issue tracking and progress.
 				</Text>
 			</div>
 

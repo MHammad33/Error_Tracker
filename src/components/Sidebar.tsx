@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -9,7 +9,6 @@ import {
   GearIcon,
   HamburgerMenuIcon
 } from "@radix-ui/react-icons";
-import { useState } from "react";
 import classNames from "classnames";
 
 interface SidebarProps {

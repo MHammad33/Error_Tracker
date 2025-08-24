@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { issueSchema } from "@/lib/validationSchema";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/AuthOptions";
+import { Prisma, Status } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
 	const session = await getServerSession(authOptions);
@@ -52,9 +53,9 @@ export async function GET(request: NextRequest) {
 		const orderDirection = searchParams.get("orderDirection") || "desc";
 
 		// Build where clause
-		const where: any = {};
+		const where: Prisma.IssueWhereInput = {};
 		if (status) {
-			where.status = status;
+			where.status = status as Status;
 		}
 		if (search) {
 			where.OR = [

@@ -93,7 +93,7 @@ export const useInfiniteIssues = ({
   // Initial load and refresh when dependencies change
   useEffect(() => {
     refresh();
-  }, [status, search, orderBy, orderDirection]);
+  }, [status, search, orderBy, orderDirection, refresh]);
 
   return {
     issues,

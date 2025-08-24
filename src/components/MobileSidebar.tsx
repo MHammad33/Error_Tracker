@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
