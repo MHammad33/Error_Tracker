@@ -9,10 +9,20 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/lib/validationSchema";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import axios from "axios";
 import z from "zod";
 import Link from "next/link";
+
+// Dynamically import SimpleMDE to avoid SSR issues
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[200px] border border-gray-300 rounded-md p-3 bg-gray-50 animate-pulse">
+      <div className="text-gray-500">Loading editor...</div>
+    </div>
+  ),
+});
 
 type IssueFormData = z.infer<typeof issueSchema>;
 

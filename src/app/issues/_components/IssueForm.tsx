@@ -11,8 +11,18 @@ import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import z from "zod";
+
+// Dynamically import SimpleMDE to avoid SSR issues
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+	ssr: false,
+	loading: () => (
+		<div className="min-h-[200px] border border-gray-300 rounded-md p-3 bg-gray-50 animate-pulse">
+			<div className="text-gray-500">Loading editor...</div>
+		</div>
+	),
+});
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
