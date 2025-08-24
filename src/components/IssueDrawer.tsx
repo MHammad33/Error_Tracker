@@ -179,47 +179,51 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity"
+          className="fixed inset-0 bg-black/20 backdrop-blur-md z-40 transition-all duration-500 ease-out"
           onClick={onClose}
         />
       )}
 
       {/* Drawer */}
-      <div className={`fixed right-0 top-0 h-full w-full max-w-3xl bg-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? "translate-x-0" : "translate-x-full"
+      <div className={`fixed right-0 top-0 h-full w-full max-w-4xl bg-white z-50 transform transition-all duration-500 ease-out shadow-2xl border-l border-gray-100 flex flex-col ${isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         }`}>
         {/* Drawer Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50">
-          <div className="flex items-center gap-3">
+        <div className="flex-shrink-0 flex items-center justify-between px-8 py-6 bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-sm">
+          <div className="flex items-center gap-4">
             {isEditing && (
               <Button
                 variant="ghost"
                 size="2"
                 onClick={handleCancelEdit}
-                className="mr-2"
+                className="rounded-full hover:bg-gray-100 transition-colors duration-200"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
               </Button>
             )}
-            <Heading size="5" className="text-gray-900">
-              {isEditing ? "Edit Issue" : "Issue Details"}
-            </Heading>
-            {!isEditing && <StatusBadge status={issue.status} />}
+            <div className="flex items-center gap-3">
+              <Heading size="6" className="text-gray-900 font-semibold tracking-tight">
+                {isEditing ? "Edit Issue" : "Issue Details"}
+              </Heading>
+              {!isEditing && <StatusBadge status={issue.status} />}
+            </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {isEditing ? (
               <>
                 <Button
                   variant="ghost"
-                  size="2"
+                  size="3"
                   onClick={handleCancelEdit}
                   disabled={isSubmitting}
+                  className="rounded-lg hover:bg-gray-100 text-gray-600 transition-all duration-200 font-medium"
                 >
                   Cancel
                 </Button>
                 <Button
-                  size="2"
+                  size="3"
                   onClick={handleSave}
                   disabled={isSubmitting || !isDirty}
+                  className="bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-700 hover:to-violet-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg font-medium"
                 >
                   {isSubmitting ? (
                     <>
@@ -231,20 +235,30 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
                     </>
                   ) : (
                     <>
-                      <CheckIcon className="w-4 h-4 mr-1" />
-                      Save
+                      <CheckIcon className="w-4 h-4 mr-2" />
+                      Save Changes
                     </>
                   )}
                 </Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" size="2" onClick={handleEdit}>
-                  <Pencil1Icon className="w-4 h-4 mr-1" />
+                <Button
+                  variant="ghost"
+                  size="3"
+                  onClick={handleEdit}
+                  className="rounded-lg hover:bg-gray-100 text-gray-600 transition-all duration-200 font-medium"
+                >
+                  <Pencil1Icon className="w-4 h-4 mr-2" />
                   Edit
                 </Button>
-                <Button variant="ghost" size="2" onClick={onClose}>
-                  <Cross2Icon className="w-4 h-4" />
+                <Button
+                  variant="ghost"
+                  size="3"
+                  onClick={onClose}
+                  className="rounded-full hover:bg-gray-100 text-gray-500 transition-all duration-200"
+                >
+                  <Cross2Icon className="w-5 h-5" />
                 </Button>
               </>
             )}
@@ -252,199 +266,287 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
         </div>
 
         {/* Drawer Content */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {error && (
-            <Callout.Root color="red" className="mb-6">
-              <Callout.Text>{error}</Callout.Text>
-            </Callout.Root>
-          )}
-
-          <div className="space-y-6">
-            {isEditing ? (
-              /* Edit Mode */
-              <>
-                {/* Title Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Title *
-                  </label>
-                  <TextField.Root
-                    placeholder="Enter issue title..."
-                    className="w-full"
-                    {...register("title")}
-                  />
-                  {errors.title && (
-                    <Text size="2" className="text-red-600 mt-1">
-                      {errors.title.message}
-                    </Text>
-                  )}
-                </div>
-
-                {/* Description Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Description
-                  </label>
-                  <Controller
-                    name="description"
-                    control={control}
-                    render={({ field }) => (
-                      <SimpleMDE
-                        placeholder="Describe the issue in detail..."
-                        {...field}
-                        options={{
-                          autofocus: false,
-                          spellChecker: false,
-                          minHeight: "200px",
-                          toolbar: [
-                            "bold", "italic", "heading", "|",
-                            "quote", "unordered-list", "ordered-list", "|",
-                            "link", "preview"
-                          ],
-                        }}
-                      />
-                    )}
-                  />
-                  {errors.description && (
-                    <Text size="2" className="text-red-600 mt-1">
-                      {errors.description.message}
-                    </Text>
-                  )}
-                </div>
-              </>
-            ) : (
-              /* View Mode */
-              <>
-                {/* Issue Title */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Title
-                  </Text>
-                  <Heading size="6" className="text-gray-900">
-                    {issue.title}
-                  </Heading>
-                </div>
-
-                {/* Issue Description */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Description
-                  </Text>
-                  <div className="prose prose-sm max-w-none">
-                    {issue.description ? (
-                      <Text size="3" className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                        {issue.description}
-                      </Text>
-                    ) : (
-                      <Text size="3" className="text-gray-400 italic">
-                        No description provided
-                      </Text>
-                    )}
-                  </div>
-                </div>
-              </>
+        <div className="flex-1 overflow-y-auto bg-gradient-to-b from-gray-50 to-gray-100/50">
+          <div className="p-8 pb-16 space-y-8">
+            {error && (
+              <Callout.Root color="red" className="mb-8 rounded-xl shadow-sm border-red-200">
+                <Callout.Text className="font-medium">{error}</Callout.Text>
+              </Callout.Root>
             )}
 
-            {/* Issue Metadata - Only show in view mode */}
-            {!isEditing && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Status */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Status
-                  </Text>
-                  <StatusBadge status={issue.status} />
-                </div>
-
-                {/* Assignee */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Assignee
-                  </Text>
-                  {issue.assignedUser ? (
-                    <div className="flex items-center gap-3">
-                      <Avatar
-                        src={issue.assignedUser.image || ""}
-                        fallback={issue.assignedUser.name?.[0] || "?"}
-                        size="2"
-                        radius="full"
+            <div className="space-y-8">
+              {isEditing ? (
+                /* Edit Mode */
+                <>
+                  {/* Title Input */}
+                  <div className="group">
+                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300">
+                      <label className="block text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                        Title *
+                      </label>
+                      <TextField.Root
+                        placeholder="Enter a clear and descriptive title..."
+                        className="w-full bg-gray-50 border-gray-200 focus:border-violet-300 focus:ring-violet-100 rounded-lg"
+                        {...register("title")}
                       />
-                      <div>
-                        <Text size="3" className="text-gray-900 font-medium">
-                          {issue.assignedUser.name || "Unknown"}
-                        </Text>
-                        <Text size="2" className="text-gray-500">
-                          {issue.assignedUser.email}
+                      {errors.title && (
+                        <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                          <Text size="2" className="text-red-700 font-medium">
+                            {errors.title.message}
+                          </Text>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description Input */}
+                  <div className="group">
+                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300">
+                      <label className="block text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                        Description
+                      </label>
+                      <div className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+                        <Controller
+                          name="description"
+                          control={control}
+                          render={({ field }) => (
+                            <SimpleMDE
+                              placeholder="Provide a detailed description of the issue, including steps to reproduce, expected behavior, and any relevant context..."
+                              {...field}
+                              options={{
+                                autofocus: false,
+                                spellChecker: false,
+                                minHeight: "250px",
+                                toolbar: [
+                                  "bold", "italic", "heading", "|",
+                                  "quote", "unordered-list", "ordered-list", "|",
+                                  "link", "preview", "side-by-side"
+                                ],
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
+                      {errors.description && (
+                        <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                          <Text size="2" className="text-red-700 font-medium">
+                            {errors.description.message}
+                          </Text>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* View Mode */
+                <>
+                  {/* Issue Title */}
+                  <div className="group">
+                    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-3 h-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"></div>
+                        <Text size="2" className="text-violet-600 font-bold uppercase tracking-wider text-xs">
+                          Issue Title
                         </Text>
                       </div>
+                      <Heading size="7" className="text-gray-900 leading-relaxed font-bold tracking-tight">
+                        {issue.title}
+                      </Heading>
                     </div>
-                  ) : (
-                    <Text size="3" className="text-gray-400">
-                      Unassigned
-                    </Text>
-                  )}
-                </div>
+                  </div>
 
-                {/* Created */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Created
-                  </Text>
-                  <Text size="3" className="text-gray-700">
-                    {formatDistanceToNow(new Date(issue.createdAt), { addSuffix: true })}
-                  </Text>
-                  <Text size="2" className="text-gray-500">
-                    {new Date(issue.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </Text>
-                </div>
+                  {/* Issue Description */}
+                  <div className="group">
+                    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-3 h-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"></div>
+                        <Text size="2" className="text-violet-600 font-bold uppercase tracking-wider text-xs">
+                          Description
+                        </Text>
+                      </div>
+                      <div className="prose prose-lg max-w-none">
+                        {issue.description ? (
+                          <div className="text-gray-700 leading-relaxed whitespace-pre-wrap bg-gradient-to-br from-gray-50 to-gray-100/50 p-6 rounded-xl border border-gray-200 shadow-sm">
+                            {issue.description}
+                          </div>
+                        ) : (
+                          <div className="text-gray-400 italic bg-gradient-to-br from-gray-50 to-gray-100/50 p-8 rounded-xl border border-dashed border-gray-300 text-center">
+                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                              <Text className="text-gray-400 text-lg">📝</Text>
+                            </div>
+                            No description provided
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
 
-                {/* Updated */}
-                <div>
-                  <Text size="2" className="text-gray-500 font-medium mb-2 block">
-                    Last Updated
-                  </Text>
-                  <Text size="3" className="text-gray-700">
-                    {formatDistanceToNow(new Date(issue.updatedAt), { addSuffix: true })}
-                  </Text>
-                  <Text size="2" className="text-gray-500">
-                    {new Date(issue.updatedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </Text>
+              {/* Issue Metadata - Only show in view mode */}
+              {!isEditing && (
+                <div className="group">
+                  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-8">
+                      <div className="w-3 h-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"></div>
+                      <Text size="2" className="text-violet-600 font-bold uppercase tracking-wider text-xs">
+                        Issue Metadata
+                      </Text>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {/* Status */}
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50/50 p-6 rounded-xl border border-blue-200 hover:shadow-md hover:border-blue-300 transition-all duration-200">
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <Text size="2" className="text-gray-600 font-semibold">
+                            Status
+                          </Text>
+                        </div>
+                        <div className="min-h-[48px] flex items-center">
+                          <div className="flex items-center gap-4">
+                            <div className="flex-shrink-0">
+                              <StatusBadge status={issue.status} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Assignee */}
+                      <div className="bg-gradient-to-br from-emerald-50 to-green-50/50 p-6 rounded-xl border border-emerald-200 hover:shadow-md hover:border-emerald-300 transition-all duration-200">
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <Text size="2" className="text-gray-600 font-semibold">
+                            Assignee
+                          </Text>
+                        </div>
+                        {issue.assignedUser ? (
+                          <div className="flex items-center gap-4 min-h-[48px]">
+                            <div className="flex-shrink-0">
+                              <div className="relative">
+                                <Avatar
+                                  src={issue.assignedUser.image || ""}
+                                  fallback={issue.assignedUser.name?.[0] || "?"}
+                                  size="4"
+                                  radius="full"
+                                  className="ring-2 ring-white shadow-lg"
+                                />
+                                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+                              </div>
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <Text size="3" className="text-emerald-900 font-semibold truncate">
+                                {issue.assignedUser.name || "Unknown"}
+                              </Text>
+                              <Text size="2" className="text-emerald-700 truncate mt-1">
+                                {issue.assignedUser.email}
+                              </Text>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-4 min-h-[48px]">
+                            <div className="flex-shrink-0">
+                              <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-sm border-2 border-dashed border-gray-300">
+                                <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                                  <Text size="1" className="text-gray-500 font-bold">?</Text>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <Text size="3" className="text-emerald-700 font-semibold">
+                                Unassigned
+                              </Text>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Created */}
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50/50 p-6 rounded-xl border border-amber-200 hover:shadow-md hover:border-amber-300 transition-all duration-200">
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <Text size="2" className="text-gray-600 font-semibold">
+                            Created
+                          </Text>
+                        </div>
+                        <div className="min-h-[48px]">
+                          <Text size="3" className="text-amber-900 font-semibold">
+                            {formatDistanceToNow(new Date(issue.createdAt), { addSuffix: true })}
+                          </Text>
+                          <Text size="2" className="text-amber-700 mt-2 block">
+                            {new Date(issue.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </Text>
+                        </div>
+                      </div>
+
+                      {/* Updated */}
+                      <div className="bg-gradient-to-br from-purple-50 to-violet-50/50 p-6 rounded-xl border border-purple-200 hover:shadow-md hover:border-purple-300 transition-all duration-200">
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                          <Text size="2" className="text-gray-600 font-semibold">
+                            Last Updated
+                          </Text>
+                        </div>
+                        <div className="min-h-[48px]">
+                          <Text size="3" className="text-purple-900 font-semibold">
+                            {formatDistanceToNow(new Date(issue.updatedAt), { addSuffix: true })}
+                          </Text>
+                          <Text size="2" className="text-purple-700 mt-2 block">
+                            {new Date(issue.updatedAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </Text>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
         {/* Drawer Footer */}
         {!isEditing && (
-          <div className="p-6 border-t border-gray-200 bg-gray-50">
+          <div className="flex-shrink-0 p-8 border-t border-gray-100 bg-white/95 backdrop-blur-xl">
             <div className="flex items-center justify-between">
-              <div>
-                <Text size="2" className="text-gray-500">
-                  Issue ID: {issue.id.slice(-8)}
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3 rounded-xl border border-gray-200 shadow-sm">
+                <Text size="2" className="text-gray-700 font-semibold">
+                  Issue ID: #{issue.id.slice(-8)}
                 </Text>
-                <Text size="1" className="text-gray-400 mt-1">
-                  Press E to edit, ESC to close
+                <Text size="1" className="text-gray-500 mt-1 flex items-center gap-1">
+                  <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-xs font-mono">E</kbd>
+                  to edit •
+                  <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-xs font-mono">ESC</kbd>
+                  to close
                 </Text>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" onClick={onClose}>
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="3"
+                  onClick={onClose}
+                  className="rounded-lg hover:bg-gray-100 text-gray-600 transition-all duration-200 font-medium"
+                >
                   Close
                 </Button>
                 <Link href={`/issues/${issue.id}`} onClick={onClose}>
-                  <Button variant="outline">
+                  <Button
+                    variant="outline"
+                    size="3"
+                    className="rounded-lg border-violet-200 text-violet-600 hover:bg-violet-50 hover:border-violet-300 transition-all duration-200 font-medium shadow-sm"
+                  >
                     View Full Page
                   </Button>
                 </Link>
@@ -455,27 +557,38 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
 
         {/* Edit Mode Footer */}
         {isEditing && (
-          <div className="p-6 border-t border-gray-200 bg-gray-50">
+          <div className="flex-shrink-0 p-8 border-t border-gray-100 bg-white/95 backdrop-blur-xl">
             <div className="flex items-center justify-between">
-              <div>
-                <Text size="2" className="text-gray-500">
-                  {isDirty ? "You have unsaved changes" : "No changes made"}
+              <div className={`px-4 py-3 rounded-xl border shadow-sm transition-all duration-200 ${isDirty
+                ? "bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200"
+                : "bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200"
+                }`}>
+                <Text size="2" className={`font-semibold ${isDirty ? "text-orange-700" : "text-gray-700"
+                  }`}>
+                  {isDirty ? "⚠️ Unsaved changes" : "✅ No changes made"}
                 </Text>
-                <Text size="1" className="text-gray-400 mt-1">
-                  Ctrl+S to save, ESC to cancel
+                <Text size="1" className="text-gray-500 mt-1 flex items-center gap-1">
+                  <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-xs font-mono">Ctrl+S</kbd>
+                  to save •
+                  <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-xs font-mono">ESC</kbd>
+                  to cancel
                 </Text>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
                 <Button
                   variant="ghost"
+                  size="3"
                   onClick={handleCancelEdit}
                   disabled={isSubmitting}
+                  className="rounded-lg hover:bg-gray-100 text-gray-600 transition-all duration-200 font-medium"
                 >
                   Cancel
                 </Button>
                 <Button
+                  size="3"
                   onClick={handleSave}
                   disabled={isSubmitting || !isDirty}
+                  className="bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-700 hover:to-violet-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg font-medium"
                 >
                   {isSubmitting ? (
                     <>
@@ -487,7 +600,7 @@ const IssueDrawer = ({ issue, isOpen, onClose, onIssueUpdated }: IssueDrawerProp
                     </>
                   ) : (
                     <>
-                      <CheckIcon className="w-4 h-4 mr-1" />
+                      <CheckIcon className="w-4 h-4 mr-2" />
                       Save Changes
                     </>
                   )}
